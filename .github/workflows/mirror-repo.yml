@@ -23,10 +23,10 @@ jobs:
 
           # ---- EDIT THIS LIST: add/remove "source_url dest_url" pairs
           cat << 'EOF' > repo_pairs.txt
-          https://atc-github.azure.cloud.bmw/G6IT/muw-ms-ui.git https://atc-github.azure.cloud.bmw/sf-ci-gh/muw-ms-ui.git
-          https://atc-github.azure.cloud.bmw/G6IT/muw-ms-coin-integration-service.git https://atc-github.azure.cloud.bmw/sf-ci-gh/muw-ms-coin-integration-service.git
-          https://atc-github.azure.cloud.bmw/G6IT/muw-ms-statistics-service.git https://atc-github.azure.cloud.bmw/sf-ci-gh/muw-ms-statistics-service.git
-          https://atc-github.azure.cloud.bmw/G6IT/muw-ms-service-registry.git https://atc-github.azure.cloud.bmw/sf-ci-gh/muw-ms-service-registry.git
+          https://github.com/Meena-1601/python-app-deploy https://github.com/meenasubashri1998-code/python-app-deploy
+          https://github.com/Meena-1601/aws_resource_list.sh https://github.com/meenasubashri1998-code/aws_resource_list.sh
+          https://github.com/Meena-1601/Jenkins-pipeline https://github.com/meenasubashri1998-code/Jenkins-pipeline
+          https://github.com/Meena-1601/git-pjt https://github.com/meenasubashri1998-code/git-pjt
           EOF
           # --------------------------------------------------------------------------------
 
