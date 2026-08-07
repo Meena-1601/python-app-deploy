@@ -36,7 +36,7 @@ jobs:
             AUTH_SOURCE=$(echo "$SOURCE" | sed "s#https://#https://$SOURCE_PAT_USER:$SOURCE_PAT_TOKEN@#")
             AUTH_DEST=$(echo "$DEST" | sed "s#https://#https://$DEST_PAT_USER:$DEST_PAT_TOKEN@#")
 
-            git clone --bare "$AUTH_SOURCE" repo-mirror.git
+            git clone --mirror "$AUTH_SOURCE" repo-mirror.git
             cd repo-mirror.git
             git remote set-url origin "$AUTH_DEST"
             git push --mirror origin \
