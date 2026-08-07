@@ -1,0 +1,48 @@
+name: Mirror Multiple Repos (explicit source/destination list)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  mirror-list:
+    runs-on: ubuntu-latest   
+
+    env:
+      # Credentials for the SOURCE repo(s)
+      SOURCE_PAT_USER: ${{ secrets.SOURCE_PAT_USER }}
+      SOURCE_PAT_TOKEN: ${{ secrets.SOURCE_PAT_TOKEN }}
+
+      # Credentials for the DESTINATION repo(s)
+      DEST_PAT_USER: ${{ secrets.DEST_PAT_USER }}
+      DEST_PAT_TOKEN: ${{ secrets.DEST_PAT_TOKEN }}
+
+    steps:
+      - name: Mirror all listed repo pairs
+        run: |
+          set -euo pipefail
+
+          # ---- EDIT THIS LIST: add/remove "source_url dest_url" pairs
+          cat << 'EOF' > repo_pairs.txt
+          https://atc-github.azure.cloud.bmw/G6IT/muw-ms-ui.git https://atc-github.azure.cloud.bmw/sf-ci-gh/muw-ms-ui.git
+          https://atc-github.azure.cloud.bmw/G6IT/muw-ms-coin-integration-service.git https://atc-github.azure.cloud.bmw/sf-ci-gh/muw-ms-coin-integration-service.git
+          https://atc-github.azure.cloud.bmw/G6IT/muw-ms-statistics-service.git https://atc-github.azure.cloud.bmw/sf-ci-gh/muw-ms-statistics-service.git
+          https://atc-github.azure.cloud.bmw/G6IT/muw-ms-service-registry.git https://atc-github.azure.cloud.bmw/sf-ci-gh/muw-ms-service-registry.git
+          EOF
+          # --------------------------------------------------------------------------------
+
+          while read -r SOURCE DEST; do
+            [ -z "$SOURCE" ] && continue   # skip blank lines
+            echo ">>> Mirroring $SOURCE -> $DEST"
+
+            AUTH_SOURCE=$(echo "$SOURCE" | sed "s#https://#https://$SOURCE_PAT_USER:$SOURCE_PAT_TOKEN@#")
+            AUTH_DEST=$(echo "$DEST" | sed "s#https://#https://$DEST_PAT_USER:$DEST_PAT_TOKEN@#")
+
+            git clone --mirror "$AUTH_SOURCE" repo-mirror.git
+            cd repo-mirror.git
+            git remote set-url origin "$AUTH_DEST"
+            git push --mirror origin
+            cd ..
+            rm -rf repo-mirror.git
+
+            echo ">>> Done: $SOURCE -> $DEST"
+          done < repo_pairs.txt
