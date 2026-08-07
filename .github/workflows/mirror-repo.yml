@@ -39,7 +39,9 @@ jobs:
             git clone --bare "$AUTH_SOURCE" repo-mirror.git
             cd repo-mirror.git
             git remote set-url origin "$AUTH_DEST"
-            git push origin 'refs/heads/*:refs/heads/*' 'refs/tags/*:refs/tags/*' --force
+            git push --mirror origin \
+             --prune \
+             $(git for-each-ref --format='%(refname)' | grep -v '^refs/pull/')
             cd ..
             rm -rf repo-mirror.git
 
