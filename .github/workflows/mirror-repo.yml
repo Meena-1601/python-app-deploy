@@ -1,5 +1,4 @@
-name: Mirror Multiple Repos (explicit source/destination list)
-
+name: Mirror Multiple Repos
 on:
   workflow_dispatch:
 
