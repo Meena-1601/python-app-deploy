@@ -38,7 +38,7 @@ jobs:
 
             git clone --mirror "$AUTH_SOURCE" repo-mirror.git
             cd repo-mirror.git
-            rm -rf refs/pull
+            git for-each-ref --format='%(refname)' refs/pull | xargs -r -n 1 git update-ref -d
             git remote set-url origin "$AUTH_DEST"
             git push --mirror origin 
             cd ..
